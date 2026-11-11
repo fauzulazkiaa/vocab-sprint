@@ -1,0 +1,1840 @@
+<!DOCTYPE html>
+<html lang="id">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>Vocab Sprint — 3.805 kata. Satu sprint.</title>
+  <meta name="description" content="Ubah daftar Oxford 3000 jadi target harian yang jelas — dan selesaikan sebelum tahun berganti." />
+  <meta property="og:title" content="Vocab Sprint — 3.805 kata. Satu sprint." />
+  <meta property="og:description" content="Ubah daftar Oxford 3000 jadi target harian yang jelas — dan selesaikan sebelum tahun berganti." />
+  <meta property="og:type" content="website" />
+  <style>
+    /* -------------------------------------------------------------
+       APPLE DESIGN TOKENS (Spec 6.2 & 6.3)
+       ------------------------------------------------------------- */
+    :root {
+      --bg: #f5f5f7;
+      --surface: #ffffff;
+      --surface-2: #f5f5f7;
+      --border: rgba(0, 0, 0, 0.08);
+      --border-soft: rgba(0, 0, 0, 0.06);
+      --text: #1d1d1f;
+      --text-2: #86868b;
+      --text-3: #a1a1a6;
+      --accent: #0071e3;
+      --accent-hover: #0077ed;
+      --link: #0071e3;
+      --success: #34c759;
+      --warning: #ff9f0a;
+
+      --font-stack: -apple-system, BlinkMacSystemFont, "SF Pro Display", "SF Pro Text", "Segoe UI", Roboto, Helvetica, Arial, sans-serif;
+      --ease-apple: cubic-bezier(0.22, 1, 0.36, 1);
+    }
+
+    @media (prefers-color-scheme: dark) {
+      :root {
+        --bg: #000000;
+        --surface: #1d1d1f;
+        --surface-2: #2c2c2e;
+        --border: rgba(255, 255, 255, 0.12);
+        --border-soft: rgba(255, 255, 255, 0.08);
+        --text: #f5f5f7;
+        --text-2: #86868b;
+        --text-3: #6e6e73;
+        --accent: #2997ff;
+        --accent-hover: #40a9ff;
+        --link: #2997ff;
+        --success: #34c759;
+        --warning: #ff9f0a;
+      }
+    }
+
+    /* -------------------------------------------------------------
+       GLOBAL RESETS & TYPOGRAPHY
+       ------------------------------------------------------------- */
+    *, *::before, *::after {
+      box-sizing: border-box;
+      margin: 0;
+      padding: 0;
+    }
+
+    html {
+      scroll-behavior: smooth;
+      background-color: var(--bg);
+      color: var(--text);
+      font-family: var(--font-stack);
+      -webkit-font-smoothing: antialiased;
+      -moz-osx-font-smoothing: grayscale;
+    }
+
+    body {
+      background-color: var(--bg);
+      color: var(--text);
+      overflow-x: hidden;
+      line-height: 1.47059;
+    }
+
+    a {
+      color: inherit;
+      text-decoration: none;
+    }
+
+    /* Primary Apple Pill Button */
+    .btn-pill {
+      display: inline-flex;
+      align-items: center;
+      justify-content: center;
+      background-color: var(--accent);
+      color: #ffffff;
+      height: 44px;
+      padding: 0 22px;
+      border-radius: 980px;
+      font-size: 17px;
+      font-weight: 400;
+      line-height: 1;
+      border: none;
+      cursor: pointer;
+      transition: background-color 0.18s ease, transform 0.18s ease;
+      white-space: nowrap;
+      text-decoration: none;
+    }
+
+    .btn-pill:hover {
+      background-color: var(--accent-hover);
+    }
+
+    .btn-pill-sm {
+      height: 30px;
+      padding: 0 14px;
+      font-size: 12px;
+      font-weight: 400;
+    }
+
+    .btn-pill-lg {
+      height: 48px;
+      padding: 0 28px;
+      font-size: 17px;
+    }
+
+    /* Text link with chevron */
+    .link-chevron {
+      display: inline-flex;
+      align-items: center;
+      gap: 4px;
+      color: var(--link);
+      font-size: 17px;
+      font-weight: 400;
+      cursor: pointer;
+      text-decoration: none;
+      transition: color 0.15s ease;
+    }
+
+    .link-chevron:hover {
+      text-decoration: underline;
+    }
+
+    /* Layout Containers */
+    .container-grid {
+      max-width: 1120px;
+      margin-left: auto;
+      margin-right: auto;
+      padding-left: 24px;
+      padding-right: 24px;
+    }
+
+    .container-text {
+      max-width: 980px;
+      margin-left: auto;
+      margin-right: auto;
+      padding-left: 24px;
+      padding-right: 24px;
+    }
+
+    /* Vertical Section Spacing (160px desktop / 96px mobile) */
+    .section-spacing {
+      padding-top: 160px;
+      padding-bottom: 160px;
+    }
+
+    @media (max-width: 768px) {
+      .section-spacing {
+        padding-top: 96px;
+        padding-bottom: 96px;
+      }
+      .container-grid, .container-text {
+        padding-left: 20px;
+        padding-right: 20px;
+      }
+    }
+
+    /* -------------------------------------------------------------
+       1. NAV STICKY 48PX
+       ------------------------------------------------------------- */
+    .nav-sticky {
+      position: fixed;
+      top: 0;
+      left: 0;
+      right: 0;
+      height: 48px;
+      z-index: 100;
+      background-color: rgba(0, 0, 0, 0.55);
+      -webkit-backdrop-filter: saturate(180%) blur(20px);
+      backdrop-filter: saturate(180%) blur(20px);
+      border-bottom: 1px solid transparent;
+      color: #f5f5f7;
+      transition: background-color 0.2s ease, border-bottom-color 0.2s ease, color 0.2s ease;
+    }
+
+    .nav-sticky .nav-brand,
+    .nav-sticky .nav-link {
+      color: #f5f5f7;
+    }
+
+    /* Light (or theme) bar once the hero has scrolled away */
+    .nav-sticky.past-hero {
+      background-color: color-mix(in srgb, var(--bg) 72%, transparent);
+      color: var(--text);
+      border-bottom-color: var(--border-soft);
+    }
+
+    .nav-sticky.past-hero .nav-brand,
+    .nav-sticky.past-hero .nav-link {
+      color: var(--text);
+    }
+
+    .nav-inner {
+      height: 100%;
+      max-width: 1024px;
+      margin: 0 auto;
+      padding: 0 24px;
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+    }
+
+    .nav-brand {
+      font-size: 14px;
+      font-weight: 600;
+      letter-spacing: -0.01em;
+      color: var(--text);
+      white-space: nowrap;
+    }
+
+    .nav-links {
+      display: flex;
+      align-items: center;
+      gap: 28px;
+    }
+
+    .nav-link {
+      font-size: 12px;
+      font-weight: 400;
+      color: var(--text);
+      opacity: 0.8;
+      transition: opacity 0.15s ease;
+    }
+
+    .nav-link:hover {
+      opacity: 1;
+    }
+
+    .nav-actions {
+      display: flex;
+      align-items: center;
+      gap: 16px;
+    }
+
+    @media (max-width: 640px) {
+      .nav-links {
+        display: none;
+      }
+    }
+
+    /* -------------------------------------------------------------
+       2. HERO (Spotlight Background & Pure CSS 3D Card Stack)
+       ------------------------------------------------------------- */
+    .hero-section {
+      background-color: #000000;
+      color: #ffffff;
+      min-height: 94vh;
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+      justify-content: center;
+      text-align: center;
+      padding-top: 96px;
+      padding-bottom: 110px;
+      position: relative;
+      overflow: hidden;
+      background-image: 
+        radial-gradient(ellipse 60% 50% at 50% 0%, rgba(41, 151, 255, 0.22), transparent 70%),
+        radial-gradient(circle at 50% 75%, rgba(255, 255, 255, 0.06), transparent 45%);
+    }
+
+    /* Noise/grain overlay (SVG feTurbulence opacity 0.04) */
+    .hero-noise {
+      position: absolute;
+      inset: 0;
+      width: 100%;
+      height: 100%;
+      opacity: 0.04;
+      pointer-events: none;
+      z-index: 1;
+      background-image: url("data:image/svg+xml,%3Csvg viewBox='0 0 200 200' xmlns='http://www.w3.org/2000/svg'%3E%3Cfilter id='noiseFilter'%3E%3CfeTurbulence type='fractalNoise' baseFrequency='0.8' numOctaves='3' stitchTiles='stitch'/%3E%3C/filter%3E%3Crect width='100%25' height='100%25' filter='url(%23noiseFilter)'/%3E%3C/svg%3E");
+    }
+
+    /* Perspective floor grid at bottom of hero */
+    .hero-floor-grid {
+      position: absolute;
+      bottom: -60px;
+      left: -50%;
+      width: 200%;
+      height: 400px;
+      background-size: 64px 64px;
+      background-image: 
+        linear-gradient(to right, rgba(255, 255, 255, 0.06) 1px, transparent 1px),
+        linear-gradient(to bottom, rgba(255, 255, 255, 0.06) 1px, transparent 1px);
+      transform-origin: 50% 100%;
+      transform: perspective(800px) rotateX(70deg);
+      -webkit-mask-image: linear-gradient(to top, rgba(0, 0, 0, 0.9) 0%, transparent 80%);
+      mask-image: linear-gradient(to top, rgba(0, 0, 0, 0.9) 0%, transparent 80%);
+      pointer-events: none;
+      z-index: 1;
+      animation: gridMove 20s linear infinite;
+    }
+
+    @keyframes gridMove {
+      0% {
+        background-position: 0 0;
+      }
+      100% {
+        background-position: 0 64px;
+      }
+    }
+
+    .hero-content {
+      position: relative;
+      z-index: 2;
+      width: 100%;
+    }
+
+    .hero-eyebrow {
+      font-size: 12px;
+      font-weight: 600;
+      text-transform: uppercase;
+      letter-spacing: 0.08em;
+      color: #86868b;
+      margin-bottom: 14px;
+    }
+
+    .hero-title {
+      font-size: 80px;
+      font-weight: 600;
+      letter-spacing: -0.035em;
+      line-height: 1.05;
+      color: #f5f5f7;
+      margin-bottom: 18px;
+      text-wrap: balance;
+    }
+
+    .hero-sub {
+      font-size: 21px;
+      line-height: 1.4;
+      color: #86868b;
+      max-width: 620px;
+      margin: 0 auto 36px;
+      text-wrap: balance;
+    }
+
+    .hero-cta {
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      gap: 24px;
+      margin-bottom: 60px;
+    }
+
+    /* 3D Flashcard Viewport */
+    .card-stack-viewport {
+      perspective: 1400px;
+      width: 100%;
+      max-width: 440px;
+      height: 310px;
+      margin: 10px auto 0;
+      position: relative;
+      z-index: 2;
+    }
+
+    .card-stack {
+      width: 100%;
+      height: 100%;
+      position: relative;
+      transform-style: preserve-3d;
+      transition: transform 0.15s cubic-bezier(0.22, 1, 0.36, 1);
+    }
+
+    /* Floor shadow */
+    .card-floor-shadow {
+      position: absolute;
+      bottom: -32px;
+      left: 50%;
+      transform: translateX(-50%);
+      width: 320px;
+      height: 48px;
+      border-radius: 50%;
+      background: rgba(0, 0, 0, 0.6);
+      filter: blur(40px);
+      z-index: 0;
+      pointer-events: none;
+      animation: shadowPulse 6s ease-in-out infinite;
+    }
+
+    @keyframes shadowPulse {
+      0%, 100% {
+        transform: translateX(-50%) scale(1);
+        opacity: 0.65;
+      }
+      50% {
+        transform: translateX(-50%) scale(0.88);
+        opacity: 0.4;
+      }
+    }
+
+    /* Dark Apple Glass Material */
+    .mockup-card {
+      position: absolute;
+      inset: 0;
+      background: rgba(29, 29, 31, 0.72);
+      -webkit-backdrop-filter: blur(24px) saturate(160%);
+      backdrop-filter: blur(24px) saturate(160%);
+      border-radius: 28px;
+      border: 1px solid rgba(255, 255, 255, 0.08);
+      box-shadow: inset 0 1px 0 rgba(255, 255, 255, 0.12), 0 30px 80px -20px rgba(0, 0, 0, 0.7);
+      padding: 32px 36px;
+      display: flex;
+      flex-direction: column;
+      justify-content: space-between;
+      text-align: left;
+      user-select: none;
+      transform-style: preserve-3d;
+      overflow: hidden;
+      will-change: transform, opacity;
+    }
+
+    /* Rear card 1 (achieve, shifted left -120px) */
+    .card-back-1 {
+      z-index: 2;
+      transform: translate3d(-120px, 10px, -80px) rotateX(10deg) rotateY(-8deg);
+      opacity: 0.55;
+      transition: transform 0.4s var(--ease-apple), opacity 0.4s var(--ease-apple);
+    }
+
+    /* Rear card 2 (brief, shifted right +120px, blur 1px) */
+    .card-back-2 {
+      z-index: 1;
+      transform: translate3d(120px, 18px, -160px) rotateX(14deg) rotateY(18deg);
+      opacity: 0.3;
+      filter: blur(1px);
+      transition: transform 0.4s var(--ease-apple), opacity 0.4s var(--ease-apple);
+    }
+
+    /* Front card (abandon, floating 6px, tilt rotateX(12deg) rotateY(-14deg)) */
+    .card-front {
+      z-index: 3;
+      transform: rotateX(12deg) rotateY(-14deg);
+      animation: cardFloat 6s ease-in-out infinite;
+      box-shadow: inset 0 1px 0 rgba(255, 255, 255, 0.15), 0 30px 80px -20px rgba(0, 0, 0, 0.8);
+    }
+
+    @keyframes cardFloat {
+      0%, 100% {
+        transform: translateY(0px) rotateX(12deg) rotateY(-14deg);
+      }
+      50% {
+        transform: translateY(-6px) rotateX(12deg) rotateY(-14deg);
+      }
+    }
+
+    /* Cursor sheen highlight on front card */
+    .card-front::after {
+      content: "";
+      position: absolute;
+      inset: 0;
+      border-radius: 28px;
+      background: radial-gradient(circle 260px at var(--mouse-x, 50%) var(--mouse-y, 50%), rgba(255, 255, 255, 0.08), transparent 70%);
+      pointer-events: none;
+      opacity: var(--sheen-opacity, 0);
+      transition: opacity 0.3s ease;
+      z-index: 10;
+    }
+
+    .card-meta-line {
+      display: flex;
+      align-items: center;
+      gap: 8px;
+      font-size: 11px;
+      font-weight: 600;
+      letter-spacing: 0.05em;
+      color: #86868b;
+    }
+
+    .card-meta-badge {
+      background: rgba(255, 255, 255, 0.08);
+      border: 1px solid rgba(255, 255, 255, 0.12);
+      color: #f5f5f7;
+      padding: 2px 7px;
+      border-radius: 6px;
+      font-weight: 700;
+    }
+
+    .card-word {
+      font-size: 56px;
+      font-weight: 600;
+      letter-spacing: -0.03em;
+      color: #f5f5f7;
+      line-height: 1.1;
+      margin-top: 12px;
+    }
+
+    .card-phonetic {
+      font-family: ui-monospace, SFMono-Regular, Menlo, Monaco, Consolas, monospace;
+      font-size: 15px;
+      color: #86868b;
+      margin-top: 4px;
+    }
+
+    .card-actions {
+      display: flex;
+      align-items: center;
+      gap: 12px;
+      margin-top: 24px;
+    }
+
+    .card-btn {
+      flex: 1;
+      height: 38px;
+      border-radius: 980px;
+      font-size: 13px;
+      font-weight: 500;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      border: none;
+      cursor: default;
+      transition: background-color 0.2s ease, opacity 0.2s ease;
+    }
+
+    /* Requirement 3: "Udah tahu" is primary (blue), "Hafalin" is secondary */
+    .card-btn-primary {
+      background-color: #2997ff;
+      color: #ffffff;
+      font-weight: 600;
+    }
+
+    .card-btn-secondary {
+      background-color: rgba(255, 255, 255, 0.08);
+      color: #f5f5f7;
+      border: 1px solid rgba(255, 255, 255, 0.12);
+    }
+
+    /* Hero copy and CTAs are visible on first paint, including static
+       renders and prefers-reduced-motion. They must not start at opacity 0. */
+    .fade-up-init,
+    .hero-cta,
+    .hero-title,
+    .hero-sub,
+    .hero-eyebrow {
+      opacity: 1;
+      transform: none;
+      animation: none;
+    }
+
+    @media (max-width: 768px) {
+      .hero-title {
+        font-size: 48px;
+      }
+      .hero-sub {
+        font-size: 18px;
+      }
+      .card-word {
+        font-size: 44px;
+      }
+      .hero-cta {
+        flex-direction: column;
+        gap: 16px;
+      }
+      .card-stack-viewport {
+        max-width: 320px;
+        height: 260px;
+        transform: scale(0.82);
+        transform-origin: 50% 50%;
+      }
+      .card-back-1 {
+        transform: translate3d(-50px, 10px, -80px) rotateX(10deg) rotateY(-8deg);
+      }
+      .card-back-2 {
+        transform: translate3d(50px, 18px, -160px) rotateX(14deg) rotateY(18deg);
+      }
+    }
+
+    @media (max-width: 400px) {
+      .card-stack-viewport {
+        transform: scale(0.74);
+      }
+      .card-back-1 {
+        transform: translate3d(-36px, 10px, -80px) rotateX(10deg) rotateY(-8deg);
+      }
+      .card-back-2 {
+        transform: translate3d(36px, 18px, -160px) rotateX(14deg) rotateY(18deg);
+      }
+    }
+
+    /* -------------------------------------------------------------
+       3. SEKSI ANGKA (4 Kolom / Mobile 2x2)
+       ------------------------------------------------------------- */
+    .stats-section {
+      border-top: 1px solid var(--border-soft);
+      border-bottom: 1px solid var(--border-soft);
+      padding: 64px 0;
+    }
+
+    .stats-grid {
+      display: grid;
+      grid-template-columns: repeat(4, 1fr);
+    }
+
+    .stat-item {
+      text-align: center;
+      padding: 12px 20px;
+      position: relative;
+    }
+
+    .stat-item:not(:last-child)::after {
+      content: "";
+      position: absolute;
+      right: 0;
+      top: 15%;
+      height: 70%;
+      width: 1px;
+      background-color: var(--border-soft);
+    }
+
+    .stat-number {
+      font-size: 56px;
+      font-weight: 600;
+      letter-spacing: -0.03em;
+      line-height: 1.05;
+      color: var(--text);
+      font-variant-numeric: tabular-nums;
+      margin-bottom: 6px;
+    }
+
+    .stat-label {
+      font-size: 15px;
+      color: var(--text-2);
+    }
+
+    @media (max-width: 768px) {
+      .stats-grid {
+        grid-template-columns: repeat(2, 1fr);
+        row-gap: 36px;
+      }
+      .stat-item:nth-child(2)::after {
+        display: none;
+      }
+      .stat-number {
+        font-size: 42px;
+      }
+    }
+
+    /* -------------------------------------------------------------
+       4. SEKSI KATA BERGANTI (Sticky 220vh, Hitam)
+       ------------------------------------------------------------- */
+    .word-scroll-stage {
+      height: 220vh;
+      background-color: #000000;
+      color: #ffffff;
+      position: relative;
+    }
+
+    .word-scroll-sticky {
+      position: sticky;
+      top: 0;
+      height: 100vh;
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+      justify-content: center;
+      text-align: center;
+      padding: 0 24px;
+      overflow: hidden;
+    }
+
+    .word-scroll-stage-title {
+      font-size: 13px;
+      font-weight: 600;
+      text-transform: uppercase;
+      letter-spacing: 0.1em;
+      color: #86868b;
+      margin-bottom: 40px;
+    }
+
+    .word-display-box {
+      min-height: 140px;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+    }
+
+    .word-display-text {
+      font-size: 120px;
+      font-weight: 600;
+      letter-spacing: -0.03em;
+      line-height: 1;
+      color: #ffffff;
+      transition: filter 0.25s ease, opacity 0.25s ease, transform 0.25s ease;
+      will-change: filter, opacity, transform;
+    }
+
+    .word-display-text.anim-blur {
+      filter: blur(8px);
+      opacity: 0.1;
+      transform: scale(0.97);
+    }
+
+    .word-progress-track {
+      width: 240px;
+      height: 2px;
+      background-color: rgba(255, 255, 255, 0.15);
+      border-radius: 980px;
+      margin: 48px auto 24px;
+      overflow: hidden;
+    }
+
+    .word-progress-fill {
+      height: 100%;
+      width: 0%;
+      background-color: #2997ff;
+      border-radius: 980px;
+      transition: width 0.08s linear;
+    }
+
+    .word-caption {
+      font-size: 17px;
+      color: #86868b;
+      font-weight: 400;
+    }
+
+    @media (max-width: 768px) {
+      .word-display-text {
+        font-size: 64px;
+      }
+      .word-display-box {
+        min-height: 80px;
+      }
+    }
+
+    /* -------------------------------------------------------------
+       5. FITUR BENTO GRID (6 Kolom)
+       ------------------------------------------------------------- */
+    .bento-section {
+      background-color: var(--bg);
+    }
+
+    .bento-header {
+      text-align: center;
+      margin-bottom: 64px;
+    }
+
+    .bento-header h2 {
+      font-size: 48px;
+      font-weight: 600;
+      letter-spacing: -0.03em;
+      color: var(--text);
+    }
+
+    .bento-grid {
+      display: grid;
+      grid-template-columns: repeat(6, 1fr);
+      gap: 16px;
+    }
+
+    .bento-card {
+      background-color: var(--surface);
+      border-radius: 28px;
+      padding: 40px;
+      border: 1px solid var(--border-soft);
+      display: flex;
+      flex-direction: column;
+      justify-content: space-between;
+      overflow: hidden;
+      opacity: 0;
+      transform: translateY(24px);
+      transition: opacity 0.5s var(--ease-apple), transform 0.5s var(--ease-apple);
+    }
+
+    .bento-card.in-view {
+      opacity: 1;
+      transform: translateY(0);
+    }
+
+    .span-4 { grid-column: span 4; }
+    .span-2 { grid-column: span 2; }
+    .span-6 { grid-column: span 6; }
+
+    .bento-card h3 {
+      font-size: 24px;
+      font-weight: 600;
+      letter-spacing: -0.02em;
+      color: var(--text);
+      margin-bottom: 8px;
+    }
+
+    .bento-card p {
+      font-size: 17px;
+      line-height: 1.45;
+      color: var(--text-2);
+      max-width: 440px;
+    }
+
+    .bento-visual {
+      margin-top: 32px;
+    }
+
+    /* Bento 1: Daily Target */
+    .target-mini-ui {
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      background-color: var(--surface-2);
+      border: 1px solid var(--border);
+      border-radius: 20px;
+      padding: 24px 28px;
+    }
+
+    .target-date-range {
+      font-size: 14px;
+      color: var(--text-2);
+    }
+
+    .target-date-range strong {
+      display: block;
+      font-size: 16px;
+      color: var(--text);
+      margin-top: 2px;
+    }
+
+    .target-number-badge {
+      font-size: 44px;
+      font-weight: 600;
+      color: var(--accent);
+      letter-spacing: -0.03em;
+      font-variant-numeric: tabular-nums;
+    }
+
+    /* Bento 2: Spaced Repetition Timeline */
+    .srs-timeline {
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      position: relative;
+      padding: 16px 0;
+    }
+
+    .srs-timeline::before {
+      content: "";
+      position: absolute;
+      left: 10px;
+      right: 10px;
+      top: 50%;
+      height: 1px;
+      background-color: var(--border);
+      z-index: 1;
+    }
+
+    .srs-step {
+      position: relative;
+      z-index: 2;
+      background-color: var(--surface);
+      text-align: center;
+    }
+
+    .srs-dot {
+      width: 12px;
+      height: 12px;
+      border-radius: 50%;
+      background-color: var(--accent);
+      margin: 0 auto 6px;
+      border: 2px solid var(--surface);
+    }
+
+    .srs-label {
+      font-size: 13px;
+      font-weight: 500;
+      color: var(--text);
+      white-space: nowrap;
+    }
+
+    /* Bento 3: Quick Quiz */
+    .quiz-mini-list {
+      display: flex;
+      flex-direction: column;
+      gap: 8px;
+    }
+
+    .quiz-mini-option {
+      padding: 10px 14px;
+      border-radius: 12px;
+      font-size: 13px;
+      background-color: var(--surface-2);
+      border: 1px solid var(--border);
+      color: var(--text);
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+    }
+
+    .quiz-mini-option.correct {
+      background-color: color-mix(in srgb, var(--success) 14%, var(--surface));
+      border-color: var(--success);
+      color: var(--success);
+      font-weight: 600;
+    }
+
+    /* Bento 4: CEFR Progress Bars */
+    .level-bars {
+      display: flex;
+      flex-direction: column;
+      gap: 12px;
+    }
+
+    .level-row {
+      display: flex;
+      align-items: center;
+      gap: 12px;
+      font-size: 12px;
+    }
+
+    .level-tag {
+      font-weight: 700;
+      width: 24px;
+      color: var(--text);
+    }
+
+    .level-track {
+      flex: 1;
+      height: 6px;
+      background-color: var(--surface-2);
+      border-radius: 980px;
+      overflow: hidden;
+      border: 1px solid var(--border-soft);
+    }
+
+    .level-fill {
+      height: 100%;
+      background-color: var(--accent);
+      border-radius: 980px;
+      width: 0%;
+      transition: width 1s var(--ease-apple);
+    }
+
+    .level-count {
+      font-variant-numeric: tabular-nums;
+      color: var(--text-2);
+      width: 40px;
+      text-align: right;
+    }
+
+    /* Bento 5: Apple-style Keyboard Keys */
+    .kbd-cluster {
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      gap: 12px;
+      padding: 12px 0;
+    }
+
+    .apple-kbd {
+      display: inline-flex;
+      align-items: center;
+      justify-content: center;
+      background-color: var(--surface-2);
+      border: 1px solid var(--border);
+      box-shadow: 0 2px 0 var(--border);
+      border-radius: 10px;
+      padding: 8px 16px;
+      font-size: 14px;
+      font-weight: 600;
+      color: var(--text);
+      font-family: ui-monospace, SFMono-Regular, Menlo, monospace;
+    }
+
+    .apple-kbd-lg {
+      min-width: 90px;
+    }
+
+    /* Bento 6: Activity Grid (42 Days) */
+    .activity-grid-preview {
+      display: grid;
+      grid-template-columns: repeat(21, 1fr);
+      gap: 6px;
+      margin-top: 24px;
+    }
+
+    .act-box {
+      aspect-ratio: 1;
+      border-radius: 4px;
+      background-color: var(--surface-2);
+    }
+
+    .act-1 { background-color: color-mix(in srgb, var(--accent) 25%, var(--surface-2)); }
+    .act-2 { background-color: color-mix(in srgb, var(--accent) 50%, var(--surface-2)); }
+    .act-3 { background-color: color-mix(in srgb, var(--accent) 75%, var(--surface-2)); }
+    .act-4 { background-color: var(--accent); }
+
+    .sample-label {
+      font-size: 12px;
+      color: var(--text-3);
+      text-align: right;
+      margin-top: 8px;
+    }
+
+    @media (max-width: 900px) {
+      .span-4, .span-2 {
+        grid-column: span 6;
+      }
+      .bento-header h2 {
+        font-size: 36px;
+      }
+      .activity-grid-preview {
+        grid-template-columns: repeat(14, 1fr);
+      }
+    }
+
+    /* -------------------------------------------------------------
+       6. CARA KERJA (3 Kolom Bernomor)
+       ------------------------------------------------------------- */
+    .workflow-header {
+      margin-bottom: 64px;
+      text-align: center;
+    }
+
+    .workflow-header h2 {
+      font-size: 40px;
+      font-weight: 600;
+      letter-spacing: -0.03em;
+      color: var(--text);
+    }
+
+    .workflow-grid {
+      display: grid;
+      grid-template-columns: repeat(3, 1fr);
+      gap: 36px;
+      position: relative;
+    }
+
+    .workflow-grid::before {
+      content: "";
+      position: absolute;
+      top: 12px;
+      left: 10%;
+      right: 10%;
+      height: 1px;
+      background-color: var(--border);
+      z-index: 0;
+    }
+
+    .workflow-item {
+      position: relative;
+      z-index: 1;
+      padding-top: 28px;
+    }
+
+    .workflow-num {
+      display: inline-block;
+      font-size: 15px;
+      font-weight: 600;
+      color: var(--accent);
+      margin-bottom: 16px;
+      background-color: var(--bg);
+      padding: 0 4px;
+    }
+
+    .workflow-item h3 {
+      font-size: 24px;
+      font-weight: 600;
+      letter-spacing: -0.02em;
+      color: var(--text);
+      margin-bottom: 12px;
+    }
+
+    .workflow-item p {
+      font-size: 17px;
+      line-height: 1.5;
+      color: var(--text-2);
+    }
+
+    @media (max-width: 768px) {
+      .workflow-grid {
+        grid-template-columns: 1fr;
+        gap: 48px;
+      }
+      .workflow-grid::before {
+        display: none;
+      }
+      .workflow-item {
+        padding-top: 0;
+      }
+    }
+
+    /* -------------------------------------------------------------
+       7. PRIVASI
+       ------------------------------------------------------------- */
+    .privacy-card {
+      background-color: var(--surface);
+      border-radius: 28px;
+      border: 1px solid var(--border-soft);
+      padding: 72px 40px;
+      text-align: center;
+      max-width: 960px;
+      margin: 0 auto;
+    }
+
+    .privacy-icon {
+      width: 40px;
+      height: 40px;
+      margin: 0 auto 24px;
+      color: var(--text);
+    }
+
+    .privacy-title {
+      font-size: 40px;
+      font-weight: 600;
+      letter-spacing: -0.03em;
+      color: var(--text);
+      margin-bottom: 14px;
+      text-wrap: balance;
+    }
+
+    .privacy-sub {
+      font-size: 19px;
+      line-height: 1.45;
+      color: var(--text-2);
+      max-width: 580px;
+      margin: 0 auto 32px;
+      text-wrap: balance;
+    }
+
+    .privacy-chips {
+      display: inline-flex;
+      align-items: center;
+      gap: 12px;
+      font-size: 14px;
+      font-weight: 500;
+      color: var(--text-2);
+    }
+
+    .privacy-chips .sep {
+      color: var(--text-3);
+    }
+
+    @media (max-width: 768px) {
+      .privacy-card {
+        padding: 48px 24px;
+      }
+      .privacy-title {
+        font-size: 32px;
+      }
+      .privacy-sub {
+        font-size: 17px;
+      }
+    }
+
+    /* -------------------------------------------------------------
+       8. CTA AKHIR
+       ------------------------------------------------------------- */
+    .cta-final-section {
+      text-align: center;
+      padding: 120px 24px;
+    }
+
+    .cta-final-title {
+      font-size: 56px;
+      font-weight: 600;
+      letter-spacing: -0.035em;
+      color: var(--text);
+      margin-bottom: 32px;
+      text-wrap: balance;
+    }
+
+    .cta-final-actions {
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      gap: 24px;
+    }
+
+    @media (max-width: 768px) {
+      .cta-final-title {
+        font-size: 38px;
+      }
+      .cta-final-actions {
+        flex-direction: column;
+        gap: 16px;
+      }
+    }
+
+    /* -------------------------------------------------------------
+       9. FOOTER
+       ------------------------------------------------------------- */
+    .site-footer {
+      background-color: var(--bg);
+      border-top: 1px solid var(--border-soft);
+      padding: 32px 0 48px;
+      font-size: 12px;
+      color: var(--text-3);
+    }
+
+    .footer-inner {
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+      justify-content: center;
+      gap: 8px;
+      text-align: center;
+      line-height: 1.5;
+    }
+
+    .footer-inner a {
+      color: var(--text-2);
+      text-decoration: underline;
+      text-underline-offset: 2px;
+    }
+
+    .footer-inner a:hover {
+      color: var(--text);
+    }
+
+    /* Reduced Motion Rules */
+    @media (prefers-reduced-motion: reduce) {
+      *, *::before, *::after {
+        animation-duration: 0.01ms !important;
+        animation-iteration-count: 1 !important;
+        transition-duration: 0.01ms !important;
+        scroll-behavior: auto !important;
+      }
+      .card-stack {
+        transform: none !important;
+      }
+      .hero-floor-grid {
+        animation: none !important;
+      }
+      .card-front {
+        animation: none !important;
+      }
+      .card-floor-shadow {
+        animation: none !important;
+      }
+      .word-scroll-stage {
+        height: auto;
+        padding: 96px 0;
+      }
+      .word-scroll-sticky {
+        position: static;
+        height: auto;
+      }
+      .fade-up-init,
+      .hero-cta,
+      .hero-title,
+      .hero-sub,
+      .hero-eyebrow,
+      .bento-card {
+        opacity: 1 !important;
+        transform: none !important;
+        animation: none !important;
+      }
+    }
+  </style>
+</head>
+<body>
+
+  <!-- 1. NAV STICKY 48PX -->
+  <header class="nav-sticky" id="mainNav">
+    <div class="nav-inner">
+      <a href="landing.html" class="nav-brand">Vocab Sprint</a>
+      <nav class="nav-links">
+        <a href="#fitur" class="nav-link">Fitur</a>
+        <a href="#cara-kerja" class="nav-link">Cara kerja</a>
+        <a href="#progres" class="nav-link">Progres</a>
+        <a href="https://github.com/fauzulazkiaa/vocab-sprint" target="_blank" rel="noopener noreferrer" class="nav-link">GitHub</a>
+      </nav>
+      <div class="nav-actions">
+        <a href="index.html" class="btn-pill btn-pill-sm">Mulai sprint</a>
+      </div>
+    </div>
+  </header>
+
+  <main>
+    <!-- 2. HERO (Spotlight Latar, Grid Lantai & Tumpukan Kartu 3D) -->
+    <section class="hero-section">
+      <!-- Noise/grain overlay -->
+      <div class="hero-noise" aria-hidden="true"></div>
+      <!-- Perspective floor grid -->
+      <div class="hero-floor-grid" aria-hidden="true"></div>
+
+      <div class="hero-content container-text">
+        <div class="hero-eyebrow fade-up-init" id="heroEyebrow">OXFORD 3000 · A1–B2</div>
+        <h1 class="hero-title fade-up-init stagger-1" id="heroTitle">3.805 kata. Satu sprint.</h1>
+        <p class="hero-sub fade-up-init stagger-2" id="heroSub">
+          Ubah daftar Oxford 3000 jadi target harian yang jelas — dan selesaikan sebelum tahun berganti.
+        </p>
+
+        <div class="hero-cta" id="heroCta">
+          <a href="index.html" class="btn-pill">Mulai sprint</a>
+          <a href="#cara-kerja" class="link-chevron">Lihat cara kerjanya ›</a>
+        </div>
+
+        <div class="card-stack-viewport" id="cardStackViewport">
+          <div class="card-floor-shadow" id="cardFloorShadow"></div>
+          <div class="card-stack" id="cardStack">
+            <!-- Back Card 1 (achieve, shifted left -120px) -->
+            <div class="mockup-card card-back-1" id="cardBack1">
+              <div class="card-meta-line">
+                <span class="card-meta-badge">B1</span>
+                <span>VERB</span>
+              </div>
+              <div>
+                <div class="card-word">achieve</div>
+                <div class="card-phonetic">/əˈtʃiːv/</div>
+              </div>
+              <div class="card-actions">
+                <div class="card-btn card-btn-primary">Udah tahu</div>
+                <div class="card-btn card-btn-secondary">Hafalin</div>
+              </div>
+            </div>
+
+            <!-- Back Card 2 (brief, shifted right +120px, blur 1px) -->
+            <div class="mockup-card card-back-2" id="cardBack2">
+              <div class="card-meta-line">
+                <span class="card-meta-badge">B2</span>
+                <span>ADJECTIVE</span>
+              </div>
+              <div>
+                <div class="card-word">brief</div>
+                <div class="card-phonetic">/briːf/</div>
+              </div>
+              <div class="card-actions">
+                <div class="card-btn card-btn-primary">Udah tahu</div>
+                <div class="card-btn card-btn-secondary">Hafalin</div>
+              </div>
+            </div>
+
+            <!-- Front Card (abandon, floating 6px, tilt, cursor sheen) -->
+            <div class="mockup-card card-front" id="cardFront">
+              <div class="card-meta-line">
+                <span class="card-meta-badge">B2</span>
+                <span>VERB</span>
+              </div>
+              <div>
+                <div class="card-word">abandon</div>
+                <div class="card-phonetic">/əˈbændən/</div>
+              </div>
+              <div class="card-actions">
+                <div class="card-btn card-btn-primary">Udah tahu</div>
+                <div class="card-btn card-btn-secondary">Hafalin</div>
+              </div>
+            </div>
+          </div>
+        </div>
+      </div>
+    </section>
+
+    <!-- 3. SEKSI ANGKA -->
+    <section class="stats-section">
+      <div class="container-text">
+        <div class="stats-grid" id="statsGrid">
+          <div class="stat-item">
+            <div class="stat-number" data-target="3805" data-format="3.805">3.805</div>
+            <div class="stat-label">kartu</div>
+          </div>
+          <div class="stat-item">
+            <div class="stat-number" data-target="73" data-format="73">0</div>
+            <div class="stat-label">kata per hari</div>
+          </div>
+          <div class="stat-item">
+            <div class="stat-number" data-target="41" data-format="41">0</div>
+            <div class="stat-label">hari</div>
+          </div>
+          <div class="stat-item">
+            <div class="stat-number" data-target="0" data-format="0">0</div>
+            <div class="stat-label">akun yang perlu dibuat</div>
+          </div>
+        </div>
+      </div>
+    </section>
+
+    <!-- 4. SEKSI KATA BERGANTI (Sticky 220vh) -->
+    <section class="word-scroll-stage" id="wordScrollStage">
+      <div class="word-scroll-sticky">
+        <div class="word-scroll-stage-title">Sprint Kosa Kata Oxford</div>
+        <div class="word-display-box">
+          <div class="word-display-text" id="wordDisplayText">abandon</div>
+        </div>
+        <div class="word-progress-track">
+          <div class="word-progress-fill" id="wordProgressFill"></div>
+        </div>
+        <div class="word-caption">Satu kata dalam satu waktu. Fokus penuh.</div>
+      </div>
+    </section>
+
+    <!-- 5. FITUR — BENTO GRID -->
+    <section class="bento-section section-spacing" id="fitur">
+      <div class="container-grid">
+        <div class="bento-header">
+          <h2>Dibuat untuk benar-benar selesai.</h2>
+        </div>
+
+        <div class="bento-grid">
+          <!-- Bento 1: Large (Span 4) -->
+          <div class="bento-card span-4">
+            <div>
+              <h3>Target harian otomatis</h3>
+              <p>Pilih tanggal mulai dan selesai. Target harian dihitung otomatis dari sisa kata.</p>
+            </div>
+            <div class="bento-visual">
+              <div class="target-mini-ui">
+                <div class="target-date-range">
+                  <span>Sprint Default</span>
+                  <strong>21 Nov → 31 Des 2026</strong>
+                </div>
+                <div class="target-number-badge">73 <span style="font-size: 20px; font-weight: 400; color: var(--text-2);">/ hari</span></div>
+              </div>
+            </div>
+          </div>
+
+          <!-- Bento 2: Spaced Repetition (Span 2) -->
+          <div class="bento-card span-2">
+            <div>
+              <h3>Spaced repetition</h3>
+              <p>Kata yang belum nempel kembali setelah 1, 3, dan 7 hari.</p>
+            </div>
+            <div class="bento-visual">
+              <div class="srs-timeline">
+                <div class="srs-step">
+                  <div class="srs-dot"></div>
+                  <div class="srs-label">1 hari</div>
+                </div>
+                <div class="srs-step">
+                  <div class="srs-dot"></div>
+                  <div class="srs-label">3 hari</div>
+                </div>
+                <div class="srs-step">
+                  <div class="srs-dot"></div>
+                  <div class="srs-label">7 hari</div>
+                </div>
+              </div>
+            </div>
+          </div>
+
+          <!-- Bento 3: Quick Quiz (Span 2) -->
+          <div class="bento-card span-2">
+            <div>
+              <h3>Kuis cepat</h3>
+              <p>Uji daya ingat dengan 10 soal pilihan ganda acak.</p>
+            </div>
+            <div class="bento-visual">
+              <div class="quiz-mini-list">
+                <div class="quiz-mini-option">to leave something permanently</div>
+                <div class="quiz-mini-option correct">
+                  <span>to leave a place or person</span>
+                  <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><polyline points="20 6 9 17 4 12"></polyline></svg>
+                </div>
+                <div class="quiz-mini-option">to begin a new journey</div>
+              </div>
+            </div>
+          </div>
+
+          <!-- Bento 4: Progress Per Level (Span 2) -->
+          <div class="bento-card span-2" id="progres">
+            <div>
+              <h3>Progres per level</h3>
+              <p>Pantau penguasaan bertahap dari A1 hingga B2.</p>
+            </div>
+            <div class="bento-visual">
+              <div class="level-bars">
+                <div class="level-row">
+                  <span class="level-tag">A1</span>
+                  <div class="level-track"><div class="level-fill" data-width="100%"></div></div>
+                  <span class="level-count">1.076</span>
+                </div>
+                <div class="level-row">
+                  <span class="level-tag">A2</span>
+                  <div class="level-track"><div class="level-fill" data-width="85%"></div></div>
+                  <span class="level-count">990</span>
+                </div>
+                <div class="level-row">
+                  <span class="level-tag">B1</span>
+                  <div class="level-track"><div class="level-fill" data-width="60%"></div></div>
+                  <span class="level-count">902</span>
+                </div>
+                <div class="level-row">
+                  <span class="level-tag">B2</span>
+                  <div class="level-track"><div class="level-fill" data-width="45%"></div></div>
+                  <span class="level-count">837</span>
+                </div>
+              </div>
+            </div>
+          </div>
+
+          <!-- Bento 5: Keyboard-First (Span 2) -->
+          <div class="bento-card span-2">
+            <div>
+              <h3>Keyboard-first</h3>
+              <p>Fokus penuh tanpa mouse. Tangan tetap di atas keyboard.</p>
+            </div>
+            <div class="bento-visual">
+              <div class="kbd-cluster">
+                <div class="apple-kbd apple-kbd-lg">Space</div>
+                <div class="apple-kbd">1</div>
+                <div class="apple-kbd">2</div>
+              </div>
+            </div>
+          </div>
+
+          <!-- Bento 6: Activity Grid (Span 6) -->
+          <div class="bento-card span-6">
+            <div>
+              <h3>Grafik aktivitas</h3>
+              <p>Pantau konsistensi belajar selama 42 hari tanpa putus.</p>
+            </div>
+            <div class="bento-visual">
+              <div class="activity-grid-preview" id="activityGridPreview">
+                <!-- 42 sample blocks with 4 blue opacities -->
+              </div>
+              <div class="sample-label">contoh tampilan</div>
+            </div>
+          </div>
+        </div>
+      </div>
+    </section>
+
+    <!-- 6. CARA KERJA (3 Kolom Bernomor) -->
+    <section class="section-spacing" id="cara-kerja">
+      <div class="container-text">
+        <div class="workflow-header">
+          <h2>Tiga langkah. Setiap hari.</h2>
+        </div>
+
+        <div class="workflow-grid">
+          <div class="workflow-item">
+            <span class="workflow-num">01</span>
+            <h3>Atur tanggal</h3>
+            <p>Pilih kapan mulai dan kapan harus khatam. Target harian dihitung otomatis.</p>
+          </div>
+
+          <div class="workflow-item">
+            <span class="workflow-num">02</span>
+            <h3>Kenali atau hafalin</h3>
+            <p>Satu kartu, satu keputusan. Space untuk lihat arti, 1 atau 2 untuk lanjut.</p>
+          </div>
+
+          <div class="workflow-item">
+            <span class="workflow-num">03</span>
+            <h3>Ulangi di waktu yang tepat</h3>
+            <p>Kata yang belum nempel kembali setelah 1, 3, dan 7 hari.</p>
+          </div>
+        </div>
+      </div>
+    </section>
+
+    <!-- 7. PRIVASI -->
+    <section class="section-spacing" style="padding-top: 0;">
+      <div class="container-text">
+        <div class="privacy-card">
+          <!-- Lucide Lock SVG (stroke 1.5) -->
+          <svg class="privacy-icon" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round">
+            <rect x="3" y="11" width="18" height="11" rx="2" ry="2"></rect>
+            <path d="M7 11V7a5 5 0 0 1 10 0v4"></path>
+          </svg>
+
+          <h2 class="privacy-title">Progresmu tinggal di perangkatmu.</h2>
+          <p class="privacy-sub">Tanpa akun. Tanpa server. Tanpa pelacakan. Export kapan saja.</p>
+
+          <div class="privacy-chips">
+            <span>Tanpa akun</span>
+            <span class="sep">·</span>
+            <span>Tanpa server</span>
+            <span class="sep">·</span>
+            <span>Export JSON</span>
+          </div>
+        </div>
+      </div>
+    </section>
+
+    <!-- 8. CTA AKHIR -->
+    <section class="cta-final-section">
+      <div class="container-text">
+        <h2 class="cta-final-title">Sprint dimulai hari ini.</h2>
+        <div class="cta-final-actions">
+          <a href="index.html" class="btn-pill btn-pill-lg">Mulai sprint</a>
+          <a href="https://github.com/fauzulazkiaa/vocab-sprint" target="_blank" rel="noopener noreferrer" class="link-chevron">Lihat kode di GitHub ›</a>
+        </div>
+      </div>
+    </section>
+  </main>
+
+  <!-- 9. FOOTER -->
+  <footer class="site-footer">
+    <div class="container-text footer-inner">
+      <p>Dibuat oleh Fauzul Azkia untuk MLH Global Hack Week: Builders Week 2026 · Data kata: Oxford 3000 · <a href="https://github.com/fauzulazkiaa/vocab-sprint" target="_blank" rel="noopener noreferrer">Kode di GitHub</a></p>
+    </div>
+  </footer>
+
+  <!-- INTERACTIVITY & ANIMATION SCRIPT -->
+  <script>
+    document.addEventListener('DOMContentLoaded', () => {
+      // 1. Dark translucent nav while it sits over the hero; theme bar after.
+      const mainNav = document.getElementById('mainNav');
+      const heroSection = document.querySelector('.hero-section');
+      function updateNav() {
+        if (!mainNav || !heroSection) return;
+        const navHeight = mainNav.offsetHeight || 48;
+        const heroBottom = heroSection.getBoundingClientRect().bottom;
+        mainNav.classList.toggle('past-hero', heroBottom <= navHeight);
+      }
+      updateNav();
+      window.addEventListener('scroll', updateNav, { passive: true });
+
+      // 2. Hero CTAs are visible in CSS. Nothing here may hide them.
+
+      // 3. Hero 3D Card Tilt on Mousemove with Smooth Lerp + Cursor Sheen + Scroll Spread
+      const viewport = document.getElementById('cardStackViewport');
+      const stack = document.getElementById('cardStack');
+      const cardFront = document.getElementById('cardFront');
+      const cardBack1 = document.getElementById('cardBack1');
+      const cardBack2 = document.getElementById('cardBack2');
+      const isMobile = window.matchMedia('(max-width: 768px)').matches;
+      const prefersReducedMotion = window.matchMedia('(prefers-reduced-motion: reduce)').matches;
+
+      let targetTiltX = 0, targetTiltY = 0;
+      let currentTiltX = 0, currentTiltY = 0;
+      let isHovered = false;
+
+      if (!isMobile && !prefersReducedMotion && viewport && stack) {
+        viewport.addEventListener('mouseenter', () => {
+          isHovered = true;
+          if (cardFront) cardFront.style.setProperty('--sheen-opacity', '1');
+        });
+
+        viewport.addEventListener('mouseleave', () => {
+          isHovered = false;
+          targetTiltX = 0;
+          targetTiltY = 0;
+          if (cardFront) cardFront.style.setProperty('--sheen-opacity', '0');
+        });
+
+        viewport.addEventListener('mousemove', (e) => {
+          const rect = viewport.getBoundingClientRect();
+          const x = (e.clientX - rect.left) / rect.width; // 0 to 1
+          const y = (e.clientY - rect.top) / rect.height; // 0 to 1
+
+          // Tilt max 8 deg
+          targetTiltY = (x - 0.5) * 16;
+          targetTiltX = -(y - 0.5) * 16;
+
+          // Radial sheen position on front card
+          if (cardFront) {
+            cardFront.style.setProperty('--mouse-x', `${(x * 100).toFixed(1)}%`);
+            cardFront.style.setProperty('--mouse-y', `${(y * 100).toFixed(1)}%`);
+          }
+        });
+
+        function updateTilt() {
+          currentTiltX += (targetTiltX - currentTiltX) * 0.08;
+          currentTiltY += (targetTiltY - currentTiltY) * 0.08;
+
+          stack.style.transform = `perspective(1400px) rotateX(${currentTiltX.toFixed(3)}deg) rotateY(${currentTiltY.toFixed(3)}deg)`;
+          requestAnimationFrame(updateTilt);
+        }
+        requestAnimationFrame(updateTilt);
+      }
+
+      // Scroll-linked reaction (0 to 400px): rear cards spread further out and fade away
+      function onScrollSpread() {
+        if (prefersReducedMotion || !cardBack1 || !cardBack2) return;
+        const scrollY = window.scrollY;
+        const progress = Math.min(1, Math.max(0, scrollY / 400));
+
+        if (!isMobile) {
+          const shift1X = -120 - progress * 90;
+          const shift1Z = -80 - progress * 100;
+          const shift2X = 120 + progress * 90;
+          const shift2Z = -160 - progress * 120;
+          const op1 = 0.55 * (1 - progress * 0.9);
+          const op2 = 0.3 * (1 - progress * 0.9);
+
+          cardBack1.style.transform = `translate3d(${shift1X.toFixed(1)}px, ${10 + progress * 15}px, ${shift1Z.toFixed(1)}px) rotateX(10deg) rotateY(-8deg)`;
+          cardBack1.style.opacity = op1.toFixed(3);
+
+          cardBack2.style.transform = `translate3d(${shift2X.toFixed(1)}px, ${18 + progress * 20}px, ${shift2Z.toFixed(1)}px) rotateX(14deg) rotateY(18deg)`;
+          cardBack2.style.opacity = op2.toFixed(3);
+        } else {
+          const op1 = 0.55 * (1 - progress);
+          const op2 = 0.3 * (1 - progress);
+          cardBack1.style.opacity = op1.toFixed(3);
+          cardBack2.style.opacity = op2.toFixed(3);
+        }
+      }
+      window.addEventListener('scroll', onScrollSpread, { passive: true });
+
+      // 4. Numbers Count-up with easeOutCubic
+      const statElements = document.querySelectorAll('.stat-number');
+      let statsCounted = false;
+
+      function easeOutCubic(t) {
+        return (--t) * t * t + 1;
+      }
+
+      function animateCountUp() {
+        if (statsCounted) return;
+        statsCounted = true;
+
+        const duration = 1200; // 1.2s
+        const startTime = performance.now();
+
+        function update(now) {
+          const elapsed = now - startTime;
+          const progress = Math.min(1, elapsed / duration);
+          const easeVal = easeOutCubic(progress);
+
+          statElements.forEach(el => {
+            const target = parseInt(el.getAttribute('data-target') || '0', 10);
+            if (target === 0) {
+              el.textContent = '0';
+              return;
+            }
+            const current = Math.round(target * easeVal);
+            if (target > 1000) {
+              el.textContent = current.toLocaleString('id-ID');
+            } else {
+              el.textContent = current.toString();
+            }
+          });
+
+          if (progress < 1) {
+            requestAnimationFrame(update);
+          } else {
+            // ensure exact final formats
+            statElements.forEach(el => {
+              const fmt = el.getAttribute('data-format');
+              if (fmt) el.textContent = fmt;
+            });
+          }
+        }
+
+        requestAnimationFrame(update);
+      }
+
+      const statsGrid = document.getElementById('statsGrid');
+      if (statsGrid) {
+        const statsObserver = new IntersectionObserver((entries) => {
+          if (entries[0].isIntersecting) {
+            animateCountUp();
+            statsObserver.disconnect();
+          }
+        }, { threshold: 0.3 });
+        statsObserver.observe(statsGrid);
+      }
+
+      // 5. Changing Words Scroll Stage (Apple Style)
+      const wordStage = document.getElementById('wordScrollStage');
+      const wordDisplayText = document.getElementById('wordDisplayText');
+      const wordProgressFill = document.getElementById('wordProgressFill');
+
+      const wordsList = ['abandon', 'brief', 'curious', 'deliver', 'effort', 'finish'];
+      let currentWordIndex = 0;
+
+      function onWordScroll() {
+        if (!wordStage || prefersReducedMotion) return;
+
+        const rect = wordStage.getBoundingClientRect();
+        const stageHeight = wordStage.offsetHeight - window.innerHeight;
+        const scrollDist = -rect.top;
+
+        if (scrollDist < 0) {
+          wordProgressFill.style.width = '0%';
+          setWord(0);
+          return;
+        }
+
+        if (scrollDist > stageHeight) {
+          wordProgressFill.style.width = '100%';
+          setWord(wordsList.length - 1);
+          return;
+        }
+
+        const progress = Math.min(1, Math.max(0, scrollDist / stageHeight));
+        wordProgressFill.style.width = `${(progress * 100).toFixed(1)}%`;
+
+        // Determine active word
+        const step = 1 / wordsList.length;
+        const index = Math.min(wordsList.length - 1, Math.floor(progress / step));
+        setWord(index);
+      }
+
+      function setWord(index) {
+        if (index === currentWordIndex) return;
+
+        wordDisplayText.classList.add('anim-blur');
+        setTimeout(() => {
+          currentWordIndex = index;
+          wordDisplayText.textContent = wordsList[index];
+          wordDisplayText.classList.remove('anim-blur');
+        }, 120);
+      }
+
+      window.addEventListener('scroll', onWordScroll, { passive: true });
+
+      // 6. Bento Grid Staggered Fade-in & Progress Bars Grow
+      const bentoCards = document.querySelectorAll('.bento-card');
+      const bentoObserver = new IntersectionObserver((entries) => {
+        entries.forEach(entry => {
+          if (entry.isIntersecting) {
+            entry.target.classList.add('in-view');
+
+            // If progress bars are inside, trigger grow
+            const bars = entry.target.querySelectorAll('.level-fill');
+            bars.forEach(bar => {
+              const width = bar.getAttribute('data-width');
+              if (width) bar.style.width = width;
+            });
+
+            bentoObserver.unobserve(entry.target);
+          }
+        });
+      }, { threshold: 0.15 });
+
+      bentoCards.forEach(card => bentoObserver.observe(card));
+
+      // 7. Activity Grid 42 Blocks Population
+      const activityGrid = document.getElementById('activityGridPreview');
+      if (activityGrid) {
+        // Pattern of 42 days with varied intensity
+        const pattern = [
+          1, 2, 3, 4, 3, 2, 1,
+          2, 4, 4, 3, 4, 2, 0,
+          1, 3, 4, 4, 3, 4, 2,
+          3, 4, 4, 4, 3, 2, 1,
+          2, 3, 4, 4, 4, 3, 2,
+          1, 2, 4, 4, 3, 4, 4
+        ];
+        pattern.forEach(level => {
+          const box = document.createElement('div');
+          box.className = `act-box act-${level}`;
+          activityGrid.appendChild(box);
+        });
+      }
+    });
+  </script>
+</body>
+</html>
