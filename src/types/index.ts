@@ -11,6 +11,10 @@ export interface OxfordWord {
   phon_n_am: string;
   definition: string;
   example: string;
+  /** Indonesian meaning. Empty when the source row has none. */
+  arti: string;
+  /** Indonesian translation of `example`. Empty when the source row has none. */
+  contoh_arti: string;
   uk?: string;
   us?: string;
 }

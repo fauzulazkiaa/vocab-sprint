@@ -113,12 +113,94 @@ export function parseOxfordCsv(csvText: string): OxfordWord[] {
       phon_n_am: phoneticInner(row[phonNAmIdx] || ''),
       definition: row[defIdx]?.trim() || '',
       example: row[exIdx]?.trim() || '',
+      arti: '',
+      contoh_arti: '',
       uk: row[ukIdx]?.trim() || '',
       us: row[usIdx]?.trim() || '',
     });
   }
 
   return words;
+}
+
+export function meaningKey(word: string, type: string, cefr: string): string {
+  return `${word.trim().toLowerCase()}|${type.trim().toLowerCase()}|${cefr.trim().toLowerCase()}`;
+}
+
+interface IndonesianEntry {
+  word: string;
+  type: string;
+  cefr: string;
+  arti: string;
+  contoh_arti: string;
+}
+
+/**
+ * Join Indonesian meanings onto Oxford cards.
+ * Prefer the source row index (same order as oxford_3000.csv). If that row
+ * is a different word, fall back to word + type + cefr.
+ */
+export function attachIndonesianMeanings(words: OxfordWord[], artiText: string): OxfordWord[] {
+  const table = parseCsv(artiText.charCodeAt(0) === 0xfeff ? artiText.slice(1) : artiText);
+  if (table.length <= 1) return words;
+
+  const header = table[0].map(cell => cell.trim().toLowerCase());
+  const indexIdx = header.indexOf('index');
+  const wordIdx = header.indexOf('word');
+  const typeIdx = header.indexOf('type');
+  const cefrIdx = header.indexOf('cefr');
+  const artiIdx = header.indexOf('arti');
+  const contohIdx = header.indexOf('contoh_arti');
+  if (wordIdx < 0 || typeIdx < 0 || cefrIdx < 0 || artiIdx < 0) return words;
+
+  const byIndex: Array<IndonesianEntry | undefined> = [];
+  const buckets = new Map<string, IndonesianEntry[]>();
+
+  for (let i = 1; i < table.length; i++) {
+    const row = table[i];
+    const entry: IndonesianEntry = {
+      word: row[wordIdx]?.trim() || '',
+      type: row[typeIdx]?.trim() || '',
+      cefr: row[cefrIdx]?.trim() || '',
+      arti: row[artiIdx]?.trim() || '',
+      contoh_arti: contohIdx >= 0 ? (row[contohIdx]?.trim() || '') : '',
+    };
+    if (!entry.word) continue;
+
+    const index = indexIdx >= 0 ? Number.parseInt(row[indexIdx] ?? '', 10) : i - 1;
+    if (Number.isInteger(index) && index >= 0) byIndex[index] = entry;
+
+    const key = meaningKey(entry.word, entry.type, entry.cefr);
+    const list = buckets.get(key);
+    if (list) list.push(entry);
+    else buckets.set(key, [entry]);
+  }
+
+  const take = (entry: IndonesianEntry) => {
+    const list = buckets.get(meaningKey(entry.word, entry.type, entry.cefr));
+    if (!list) return;
+    const at = list.indexOf(entry);
+    if (at >= 0) list.splice(at, 1);
+  };
+
+  return words.map((word, i) => {
+    const indexed = byIndex[i];
+    const sameWord = indexed
+      && meaningKey(indexed.word, indexed.type, indexed.cefr) === meaningKey(word.word, word.type, word.cefr);
+    let match = sameWord ? indexed : undefined;
+    if (match) {
+      take(match);
+    } else {
+      const list = buckets.get(meaningKey(word.word, word.type, word.cefr));
+      match = list?.shift();
+    }
+    if (!match) return word;
+    return {
+      ...word,
+      arti: match.arti,
+      contoh_arti: match.contoh_arti,
+    };
+  });
 }
 
 let cachedWords: OxfordWord[] | null = null;
@@ -129,13 +211,17 @@ export async function loadOxfordDataset(): Promise<OxfordWord[]> {
   }
 
   const csvUrl = `${import.meta.env.BASE_URL}oxford_3000.csv`;
-  const res = await fetch(csvUrl);
+  const artiUrl = `${import.meta.env.BASE_URL}arti_id.csv`;
+  const [res, artiRes] = await Promise.all([fetch(csvUrl), fetch(artiUrl)]);
   if (!res.ok) {
     throw new Error(`Gagal memuat dataset (${res.status}) dari ${csvUrl}`);
   }
+  if (!artiRes.ok) {
+    throw new Error(`Gagal memuat arti Indonesia (${artiRes.status}) dari ${artiUrl}`);
+  }
 
-  const text = await res.text();
-  const parsed = parseOxfordCsv(text);
+  const [text, artiText] = await Promise.all([res.text(), artiRes.text()]);
+  const parsed = attachIndonesianMeanings(parseOxfordCsv(text), artiText);
   if (parsed.length === 0) {
     return [];
   }

@@ -1,33 +1,54 @@
 @import "tailwindcss";
 
+/* Follow the explicit theme set before paint, not only the OS setting. */
+@custom-variant dark (&:where([data-theme="dark"], [data-theme="dark"] *));
+
 :root {
   --bg: #f5f5f7;
   --surface: #ffffff;
   --surface-raised: #ffffff;
-  --border: rgba(0, 0, 0, 0.08);
+  --border: rgba(0, 0, 0, 0.12);
   --text-primary: #1d1d1f;
-  --text-secondary: #86868b;
+  --text-secondary: #515154;
   --accent: #0071e3;
-  --accent-hover: #0077ed;
-  --success: #34c759;
-  --warning: #ff9f0a;
+  --accent-text: #0058c2;
+  --accent-hover: #0068d1;
+  --success: #1a7f37;
+  --warning: #8a5a00;
 
   font-family: -apple-system, BlinkMacSystemFont, "SF Pro Text", "SF Pro Display", "Segoe UI", Roboto, Helvetica, Arial, sans-serif;
-  color-scheme: light dark;
+  color-scheme: light;
+}
+
+:root[data-theme="dark"] {
+  --bg: #000000;
+  --surface: #1c1c1e;
+  --surface-raised: #2c2c2e;
+  --border: rgba(255, 255, 255, 0.14);
+  --text-primary: #f5f5f7;
+  --text-secondary: #aeaeb2;
+  --accent: #0071e3;
+  --accent-text: #2997ff;
+  --accent-hover: #0068d1;
+  --success: #3ddc68;
+  --warning: #ffb340;
+  color-scheme: dark;
 }
 
 @media (prefers-color-scheme: dark) {
-  :root {
+  :root:not([data-theme="light"]) {
     --bg: #000000;
     --surface: #1c1c1e;
     --surface-raised: #2c2c2e;
-    --border: rgba(255, 255, 255, 0.12);
+    --border: rgba(255, 255, 255, 0.14);
     --text-primary: #f5f5f7;
-    --text-secondary: #86868b;
+    --text-secondary: #aeaeb2;
     --accent: #0071e3;
-    --accent-hover: #0077ed;
-    --success: #34c759;
-    --warning: #ff9f0a;
+    --accent-text: #2997ff;
+    --accent-hover: #0068d1;
+    --success: #3ddc68;
+    --warning: #ffb340;
+    color-scheme: dark;
   }
 }
 
@@ -66,7 +87,12 @@ body {
 }
 
 .text-app-accent {
-  color: var(--accent);
+  color: var(--accent-text);
+}
+
+.meaning-callout {
+  background-color: color-mix(in srgb, var(--accent-text) 12%, var(--surface));
+  border: 1px solid color-mix(in srgb, var(--accent-text) 38%, var(--border));
 }
 
 .bg-app-accent {

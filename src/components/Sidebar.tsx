@@ -95,7 +95,7 @@ export const Sidebar: React.FC<SidebarProps> = ({
         </div>
 
         <a
-          href={`${import.meta.env.BASE_URL}landing.html`}
+          href={import.meta.env.BASE_URL}
           className="mt-2.5 flex items-center justify-between px-3 py-2 text-xs font-medium text-app-secondary hover:text-app-primary hover:bg-neutral-100 dark:hover:bg-neutral-800/60 rounded-xl transition-colors border border-transparent hover:border-app-border"
         >
           <div className="flex items-center space-x-2">

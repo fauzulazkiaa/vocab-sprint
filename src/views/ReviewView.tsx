@@ -3,6 +3,7 @@ import { OxfordWord, VocabSprintStorage } from '../types';
 import { processHafalin, processLupa } from '../services/srs';
 import { updateCardInStorage, logDailyProgress, getTodayString } from '../services/storage';
 import { speakWord } from '../services/speech';
+import { CardBackContent } from '../components/CardBackContent';
 import { 
   RotateCcw, 
   Volume2, 
@@ -225,27 +226,7 @@ export const ReviewView: React.FC<ReviewViewProps> = ({
 
               {/* Answer Revealed */}
               {isFlipped ? (
-                <div className="mt-6 w-full max-w-xl mx-auto space-y-4 text-left animate-fadeIn">
-                  <div className="p-4 rounded-xl bg-app-bg border border-app-border">
-                    <p className="text-xs uppercase font-semibold tracking-wider text-app-secondary mb-1">
-                      Definisi
-                    </p>
-                    <p className="text-base text-app-primary leading-relaxed">
-                      {currentItem.word.definition}
-                    </p>
-                  </div>
-
-                  {currentItem.word.example && (
-                    <div className="p-4 rounded-xl bg-app-bg border border-app-border">
-                      <p className="text-xs uppercase font-semibold tracking-wider text-app-secondary mb-1">
-                        Contoh Kalimat
-                      </p>
-                      <p className="text-sm italic text-app-primary leading-relaxed">
-                        &ldquo;{currentItem.word.example}&rdquo;
-                      </p>
-                    </div>
-                  )}
-                </div>
+                <CardBackContent word={currentItem.word} />
               ) : (
                 <button
                   onClick={() => {
@@ -330,6 +311,11 @@ export const ReviewView: React.FC<ReviewViewProps> = ({
                           </span>
                           <span className="text-xs text-app-secondary">({word.type})</span>
                         </div>
+                        {word.arti ? (
+                          <p className="text-xs font-medium text-app-primary line-clamp-1 mt-0.5 max-w-md">
+                            {word.arti}
+                          </p>
+                        ) : null}
                         <p className="text-xs text-app-secondary line-clamp-1 mt-0.5 max-w-md">
                           {word.definition}
                         </p>

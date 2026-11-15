@@ -109,7 +109,8 @@ export const ProgressView: React.FC<ProgressViewProps> = ({
         return (
           w.word.toLowerCase().includes(query) ||
           w.definition.toLowerCase().includes(query) ||
-          w.type.toLowerCase().includes(query)
+          w.type.toLowerCase().includes(query) ||
+          w.arti.toLowerCase().includes(query)
         );
       }
 
@@ -354,6 +355,11 @@ export const ProgressView: React.FC<ProgressViewProps> = ({
                         </span>
                         <span className="text-xs text-app-secondary">({word.type})</span>
                       </div>
+                      {word.arti ? (
+                        <p className="text-xs font-medium text-app-primary line-clamp-1 mt-0.5 max-w-lg">
+                          {word.arti}
+                        </p>
+                      ) : null}
                       <p className="text-xs text-app-secondary line-clamp-1 mt-0.5 max-w-lg">
                         {word.definition}
                       </p>

@@ -1,6 +1,7 @@
 import React from 'react';
 import { VocabSprintSettings } from '../types';
-import { Volume2, Layers } from 'lucide-react';
+import { Layers } from 'lucide-react';
+import { ThemeToggle } from './ThemeToggle';
 
 interface TopbarProps {
   settings: VocabSprintSettings;
@@ -26,7 +27,7 @@ export const Topbar: React.FC<TopbarProps> = ({
           {settings.start} s/d {settings.end}
         </span>
         <a
-          href={`${import.meta.env.BASE_URL}landing.html`}
+          href={import.meta.env.BASE_URL}
           className="text-xs text-app-secondary hover:text-app-primary transition-colors inline-flex items-center space-x-1 border border-app-border px-2 py-0.5 rounded-md bg-app-bg"
           title="Buka Landing Page Produk"
         >
@@ -37,6 +38,7 @@ export const Topbar: React.FC<TopbarProps> = ({
 
       {/* Right meta */}
       <div className="flex items-center space-x-3 text-xs">
+        <ThemeToggle />
         {/* Active Levels */}
         <div className="hidden sm:flex items-center space-x-1.5 text-app-secondary bg-app-bg px-2.5 py-1 rounded-md border border-app-border">
           <Layers strokeWidth={1.5} className="w-3.5 h-3.5 text-app-accent" />
