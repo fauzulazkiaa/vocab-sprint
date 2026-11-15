@@ -12,6 +12,7 @@ import { QuizView } from './views/QuizView';
 import { ProgressView } from './views/ProgressView';
 import { SettingsView } from './views/SettingsView';
 import { Loader2, AlertCircle, RefreshCw } from 'lucide-react';
+import { ThemeToggle } from './components/ThemeToggle';
 
 export default function App() {
   const [currentTab, setCurrentTab] = useState<ViewTab>('today');
@@ -54,7 +55,10 @@ export default function App() {
 
   if (isLoading) {
     return (
-      <div className="min-h-screen bg-app-bg text-app-primary flex flex-col items-center justify-center p-6 text-center select-none">
+      <div className="min-h-screen bg-app-bg text-app-primary flex flex-col items-center justify-center p-6 text-center select-none relative">
+        <div className="absolute top-4 right-4">
+          <ThemeToggle />
+        </div>
         <div className="w-12 h-12 rounded-2xl bg-app-accent flex items-center justify-center text-white font-bold text-lg mb-4 shadow-sm animate-pulse">
           VS
         </div>
@@ -72,7 +76,10 @@ export default function App() {
 
   if (loadError) {
     return (
-      <div className="min-h-screen bg-app-bg text-app-primary flex flex-col items-center justify-center p-6 text-center">
+      <div className="min-h-screen bg-app-bg text-app-primary flex flex-col items-center justify-center p-6 text-center relative">
+        <div className="absolute top-4 right-4">
+          <ThemeToggle />
+        </div>
         <div className="w-12 h-12 rounded-full bg-red-500/15 text-red-500 flex items-center justify-center mb-4">
           <AlertCircle strokeWidth={1.5} className="w-6 h-6" />
         </div>

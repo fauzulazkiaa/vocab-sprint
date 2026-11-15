@@ -3,6 +3,21 @@
 <head>
   <meta charset="UTF-8" />
   <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <script>
+    (function () {
+      var key = 'vocabSprint.theme';
+      var theme = 'light';
+      try {
+        var stored = localStorage.getItem(key);
+        if (stored === 'light' || stored === 'dark') theme = stored;
+        else if (window.matchMedia('(prefers-color-scheme: dark)').matches) theme = 'dark';
+      } catch (e) {}
+      var root = document.documentElement;
+      root.setAttribute('data-theme', theme);
+      root.style.colorScheme = theme;
+      root.style.backgroundColor = theme === 'dark' ? '#000000' : '#f5f5f7';
+    })();
+  </script>
   <title>Vocab Sprint — 3.805 kata. Satu sprint.</title>
   <meta name="description" content="Ubah daftar Oxford 3000 jadi target harian yang jelas — dan selesaikan sebelum tahun berganti." />
   <meta property="og:title" content="Vocab Sprint — 3.805 kata. Satu sprint." />
@@ -16,36 +31,55 @@
       --bg: #f5f5f7;
       --surface: #ffffff;
       --surface-2: #f5f5f7;
-      --border: rgba(0, 0, 0, 0.08);
-      --border-soft: rgba(0, 0, 0, 0.06);
+      --border: rgba(0, 0, 0, 0.12);
+      --border-soft: rgba(0, 0, 0, 0.08);
       --text: #1d1d1f;
-      --text-2: #86868b;
-      --text-3: #a1a1a6;
+      --text-2: #515154;
+      --text-3: #6e6e73;
       --accent: #0071e3;
-      --accent-hover: #0077ed;
-      --link: #0071e3;
-      --success: #34c759;
-      --warning: #ff9f0a;
+      --accent-hover: #0068d1;
+      --link: #0058c2;
+      --success: #1a7f37;
+      --warning: #8a5a00;
+      color-scheme: light;
 
       --font-stack: -apple-system, BlinkMacSystemFont, "SF Pro Display", "SF Pro Text", "Segoe UI", Roboto, Helvetica, Arial, sans-serif;
       --ease-apple: cubic-bezier(0.22, 1, 0.36, 1);
     }
 
+    :root[data-theme="dark"] {
+      --bg: #000000;
+      --surface: #1d1d1f;
+      --surface-2: #2c2c2e;
+      --border: rgba(255, 255, 255, 0.14);
+      --border-soft: rgba(255, 255, 255, 0.1);
+      --text: #f5f5f7;
+      --text-2: #aeaeb2;
+      --text-3: #a1a1a6;
+      --accent: #0071e3;
+      --accent-hover: #0068d1;
+      --link: #2997ff;
+      --success: #3ddc68;
+      --warning: #ffb340;
+      color-scheme: dark;
+    }
+
     @media (prefers-color-scheme: dark) {
-      :root {
+      :root:not([data-theme="light"]) {
         --bg: #000000;
         --surface: #1d1d1f;
         --surface-2: #2c2c2e;
-        --border: rgba(255, 255, 255, 0.12);
-        --border-soft: rgba(255, 255, 255, 0.08);
+        --border: rgba(255, 255, 255, 0.14);
+        --border-soft: rgba(255, 255, 255, 0.1);
         --text: #f5f5f7;
-        --text-2: #86868b;
-        --text-3: #6e6e73;
-        --accent: #2997ff;
-        --accent-hover: #40a9ff;
+        --text-2: #aeaeb2;
+        --text-3: #a1a1a6;
+        --accent: #0071e3;
+        --accent-hover: #0068d1;
         --link: #2997ff;
-        --success: #34c759;
-        --warning: #ff9f0a;
+        --success: #3ddc68;
+        --warning: #ffb340;
+        color-scheme: dark;
       }
     }
 
@@ -108,6 +142,90 @@
       padding: 0 14px;
       font-size: 12px;
       font-weight: 400;
+    }
+
+    .theme-toggle {
+      display: inline-flex;
+      align-items: center;
+      gap: 6px;
+      height: 30px;
+      padding: 0 12px;
+      border-radius: 980px;
+      border: 1px solid rgba(255, 255, 255, 0.42);
+      background: transparent;
+      color: inherit;
+      font: inherit;
+      font-size: 12px;
+      line-height: 1;
+      cursor: pointer;
+    }
+
+    .theme-toggle:hover {
+      background: rgba(255, 255, 255, 0.14);
+    }
+
+    .theme-toggle:focus-visible {
+      outline: 2px solid #ffffff;
+      outline-offset: 2px;
+    }
+
+    .nav-sticky.past-hero .theme-toggle {
+      border-color: var(--border);
+    }
+
+    .nav-sticky.past-hero .theme-toggle:hover {
+      background: color-mix(in srgb, var(--text) 8%, transparent);
+    }
+
+    .nav-sticky.past-hero .theme-toggle:focus-visible {
+      outline-color: var(--link);
+    }
+
+    .theme-icon {
+      width: 14px;
+      height: 14px;
+      display: block;
+    }
+
+    .theme-label-dark,
+    .theme-icon-moon {
+      display: none;
+    }
+
+    :root[data-theme="dark"] .theme-label-light,
+    :root[data-theme="dark"] .theme-icon-sun {
+      display: none;
+    }
+
+    :root[data-theme="dark"] .theme-label-dark {
+      display: inline;
+    }
+
+    :root[data-theme="dark"] .theme-icon-moon {
+      display: block;
+    }
+
+    @media (prefers-color-scheme: dark) {
+      :root:not([data-theme="light"]) .theme-label-light,
+      :root:not([data-theme="light"]) .theme-icon-sun {
+        display: none;
+      }
+      :root:not([data-theme="light"]) .theme-label-dark {
+        display: inline;
+      }
+      :root:not([data-theme="light"]) .theme-icon-moon {
+        display: block;
+      }
+    }
+
+    @media (max-width: 420px) {
+      .theme-label-light,
+      .theme-label-dark {
+        display: none !important;
+      }
+      .theme-toggle {
+        padding: 0 8px;
+      }
     }
 
     .btn-pill-lg {
@@ -1269,6 +1387,17 @@
         <a href="https://github.com/fauzulazkiaa/vocab-sprint" target="_blank" rel="noopener noreferrer" class="nav-link">GitHub</a>
       </nav>
       <div class="nav-actions">
+        <button type="button" id="themeToggle" class="theme-toggle" aria-label="Ganti tema">
+          <svg class="theme-icon theme-icon-sun" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" aria-hidden="true">
+            <circle cx="12" cy="12" r="4"></circle>
+            <path d="M12 3v2M12 19v2M4.9 4.9l1.4 1.4M17.7 17.7l1.4 1.4M3 12h2M19 12h2M4.9 19.1l1.4-1.4M17.7 6.3l1.4-1.4"></path>
+          </svg>
+          <svg class="theme-icon theme-icon-moon" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true">
+            <path d="M21 14.5A8.5 8.5 0 1 1 9.5 3a7 7 0 0 0 11.5 11.5z"></path>
+          </svg>
+          <span class="theme-label-light">Terang</span>
+          <span class="theme-label-dark">Gelap</span>
+        </button>
         <a href="app.html" class="btn-pill btn-pill-sm">Mulai sprint</a>
       </div>
     </div>
@@ -1593,6 +1722,34 @@
   <!-- INTERACTIVITY & ANIMATION SCRIPT -->
   <script>
     document.addEventListener('DOMContentLoaded', () => {
+      const themeToggle = document.getElementById('themeToggle');
+      const syncThemeButton = () => {
+        const theme = document.documentElement.getAttribute('data-theme') === 'dark' ? 'dark' : 'light';
+        if (!themeToggle) return;
+        themeToggle.setAttribute('aria-pressed', theme === 'dark' ? 'true' : 'false');
+        themeToggle.setAttribute('aria-label', theme === 'dark' ? 'Tema gelap, ganti ke terang' : 'Tema terang, ganti ke gelap');
+      };
+      syncThemeButton();
+      themeToggle?.addEventListener('click', () => {
+        const next = document.documentElement.getAttribute('data-theme') === 'dark' ? 'light' : 'dark';
+        document.documentElement.setAttribute('data-theme', next);
+        document.documentElement.style.colorScheme = next;
+        document.documentElement.style.backgroundColor = next === 'dark' ? '#000000' : '#f5f5f7';
+        try { localStorage.setItem('vocabSprint.theme', next); } catch (e) {}
+        syncThemeButton();
+      });
+      const themeMedia = window.matchMedia('(prefers-color-scheme: dark)');
+      themeMedia.addEventListener('change', () => {
+        let stored = null;
+        try { stored = localStorage.getItem('vocabSprint.theme'); } catch (e) {}
+        if (stored === 'light' || stored === 'dark') return;
+        const next = themeMedia.matches ? 'dark' : 'light';
+        document.documentElement.setAttribute('data-theme', next);
+        document.documentElement.style.colorScheme = next;
+        document.documentElement.style.backgroundColor = next === 'dark' ? '#000000' : '#f5f5f7';
+        syncThemeButton();
+      });
+
       // 1. Dark translucent nav while it sits over the hero; theme bar after.
       const mainNav = document.getElementById('mainNav');
       const heroSection = document.querySelector('.hero-section');

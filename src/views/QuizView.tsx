@@ -211,6 +211,7 @@ export const QuizView: React.FC<QuizViewProps> = ({
             <p className="text-base md:text-lg font-medium text-app-primary leading-relaxed">
               {currentQ.prompt}
             </p>
+            {isAnswerSubmitted ? <AnswerMeaning word={currentQ.word} /> : null}
           </div>
 
           {/* Options */}
@@ -316,6 +317,12 @@ export const QuizView: React.FC<QuizViewProps> = ({
                       Jawaban benar: <span className="font-semibold text-app-primary">{item.question.correctAnswer}</span>
                     </p>
                   )}
+                  {item.question.word.arti ? (
+                    <p className="text-app-primary font-medium">Arti: {item.question.word.arti}</p>
+                  ) : null}
+                  {item.question.word.contoh_arti ? (
+                    <p className="text-app-secondary">{item.question.word.contoh_arti}</p>
+                  ) : null}
                 </div>
               ))}
             </div>
@@ -334,3 +341,20 @@ export const QuizView: React.FC<QuizViewProps> = ({
     </div>
   );
 };
+
+function AnswerMeaning({ word }: { word: OxfordWord }) {
+  if (!word.arti && !word.contoh_arti) return null;
+  return (
+    <div className="meaning-callout rounded-xl p-3 space-y-1">
+      {word.arti ? (
+        <>
+          <p className="text-[11px] uppercase font-semibold tracking-wider text-app-accent">Arti</p>
+          <p className="text-base font-semibold text-app-primary leading-snug">{word.arti}</p>
+        </>
+      ) : null}
+      {word.contoh_arti ? (
+        <p className="text-sm text-app-primary leading-relaxed">{word.contoh_arti}</p>
+      ) : null}
+    </div>
+  );
+}

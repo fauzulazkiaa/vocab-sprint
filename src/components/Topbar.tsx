@@ -1,6 +1,7 @@
 import React from 'react';
 import { VocabSprintSettings } from '../types';
-import { Volume2, Layers } from 'lucide-react';
+import { Layers } from 'lucide-react';
+import { ThemeToggle } from './ThemeToggle';
 
 interface TopbarProps {
   settings: VocabSprintSettings;
@@ -37,6 +38,7 @@ export const Topbar: React.FC<TopbarProps> = ({
 
       {/* Right meta */}
       <div className="flex items-center space-x-3 text-xs">
+        <ThemeToggle />
         {/* Active Levels */}
         <div className="hidden sm:flex items-center space-x-1.5 text-app-secondary bg-app-bg px-2.5 py-1 rounded-md border border-app-border">
           <Layers strokeWidth={1.5} className="w-3.5 h-3.5 text-app-accent" />

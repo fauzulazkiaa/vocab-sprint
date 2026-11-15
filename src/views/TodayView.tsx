@@ -3,6 +3,7 @@ import { OxfordWord, VocabSprintStorage, DailyStats, ViewTab } from '../types';
 import { processHafalin, processUdahTahu } from '../services/srs';
 import { updateCardInStorage, logDailyProgress, getTodayString } from '../services/storage';
 import { speakWord } from '../services/speech';
+import { CardBackContent } from '../components/CardBackContent';
 import { 
   Volume2, 
   RotateCw, 
@@ -146,7 +147,7 @@ export const TodayView: React.FC<TodayViewProps> = ({
         {/* Perlu Ulangan */}
         <div 
           onClick={() => stats.dueReviewCount > 0 && onNavigate('review')}
-          className={`bg-app-surface border border-app-border rounded-2xl p-4 shadow-sm transition-all ${
+          className={`bg-app-surface border border-app-border rounded-2xl p-4 shadow-sm transition-[border-color] ${
             stats.dueReviewCount > 0 ? 'cursor-pointer hover:border-orange-400' : ''
           }`}
         >
@@ -255,7 +256,7 @@ export const TodayView: React.FC<TodayViewProps> = ({
       ) : (
         /* Active Flashcard */
         <div className="space-y-4">
-          <div className="bg-app-surface border border-app-border rounded-2xl p-6 md:p-8 shadow-sm transition-all duration-200 min-h-[340px] flex flex-col justify-between">
+          <div className="bg-app-surface border border-app-border rounded-2xl p-6 md:p-8 shadow-sm min-h-[340px] flex flex-col justify-between">
             {/* Top row: Badges and Audio accent switch */}
             <div className="flex items-center justify-between pb-4 border-b border-app-border">
               <div className="flex items-center space-x-2">
@@ -326,27 +327,7 @@ export const TodayView: React.FC<TodayViewProps> = ({
 
               {/* Back content after flip */}
               {isFlipped ? (
-                <div className="mt-6 w-full max-w-xl mx-auto space-y-4 text-left animate-fadeIn">
-                  <div className="p-4 rounded-xl bg-app-bg border border-app-border">
-                    <p className="text-xs uppercase font-semibold tracking-wider text-app-secondary mb-1">
-                      Definisi
-                    </p>
-                    <p className="text-base text-app-primary leading-relaxed">
-                      {currentWord.definition}
-                    </p>
-                  </div>
-
-                  {currentWord.example && (
-                    <div className="p-4 rounded-xl bg-app-bg border border-app-border">
-                      <p className="text-xs uppercase font-semibold tracking-wider text-app-secondary mb-1">
-                        Contoh Kalimat
-                      </p>
-                      <p className="text-sm italic text-app-primary leading-relaxed">
-                        &ldquo;{currentWord.example}&rdquo;
-                      </p>
-                    </div>
-                  )}
-                </div>
+                <CardBackContent word={currentWord} />
               ) : (
                 <button
                   onClick={() => {

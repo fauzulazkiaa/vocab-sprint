@@ -9,7 +9,9 @@ Dibuat oleh Fauzul Azkia untuk MLH Global Hack Week: Builders Week 2026.
 - Target harian dihitung dari sisa kata dan sisa hari sprint
 - Kartu flashcard: **Udah tahu** (langsung dikuasai) dan **Hafalin** (ulangan setelah 1, 3, lalu 7 hari)
 - Pelafalan aksen US dan UK lewat Web Speech API, plus fonetik
-- Kuis 10 soal acak
+- Kuis 10 soal acak, dengan arti Indonesia setelah jawaban dikunci
+- Arti dan terjemahan contoh kalimat dalam bahasa Indonesia
+- Tema terang dan gelap. Bawaan mengikuti sistem, lalu pilihan disimpan di peramban
 - Progres per level CEFR dan kalender aktivitas
 - Cadangan JSON untuk pindah perangkat
 
@@ -34,11 +36,11 @@ Server pengembangan berjalan di [http://localhost:3000/vocab-sprint/](http://loc
 
 ## Data
 
-Daftar kata berasal dari Oxford 3000 (`public/oxford_3000.csv`): 3.805 kartu, level A1–B2. Satu kata bisa punya lebih dari satu kartu bila makna atau jenis katanya berbeda.
+Daftar kata berasal dari Oxford 3000 (`public/oxford_3000.csv`): 3.805 kartu, level A1–B2. Satu kata bisa punya lebih dari satu kartu bila makna atau jenis katanya berbeda. Arti Indonesia ada di `public/arti_id.csv` dan dimuat bersamaan dengan daftar kata, lalu dicocokkan menurut urutan baris (atau `word` + `type` + `cefr` bila urutannya tidak sama).
 
 ## Privasi
 
-Progres disimpan di `localStorage` pada peramban (kunci `vocabSprint.v1`). Tidak ada akun, tidak ada server, dan tidak ada pelacakan.
+Progres disimpan di `localStorage` pada peramban (kunci `vocabSprint.v1`). Pilihan tema disimpan terpisah pada kunci `vocabSprint.theme`. Tidak ada akun, tidak ada server, dan tidak ada pelacakan.
 
 ## Lisensi
 
