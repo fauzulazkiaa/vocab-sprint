@@ -33,6 +33,12 @@ jobs:
       - name: Build
         run: npm run build
 
+      - name: Confirm published pages
+        run: |
+          test -s dist/index.html
+          test -s dist/app.html
+          test -s dist/landing.html
+
       - name: Upload Pages artifact
         uses: actions/upload-pages-artifact@v3
         with:

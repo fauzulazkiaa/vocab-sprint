@@ -30,7 +30,7 @@ npm run dev
 npm run build
 ```
 
-Server pengembangan berjalan di [http://localhost:3000/vocab-sprint/](http://localhost:3000/vocab-sprint/). Halaman produk ada di `landing.html`, aplikasi di `index.html`.
+Server pengembangan berjalan di [http://localhost:3000/vocab-sprint/](http://localhost:3000/vocab-sprint/). Halaman produk adalah `index.html` di akar URL. Aplikasi ada di `app.html`. `landing.html` tetap ada dan langsung mengarah ke halaman produk.
 
 ## Data
 
